@@ -19,10 +19,10 @@
     "@remix-run/dev": "^1.14.3",
     "@remix-run/eslint-config": "^1.14.3",
     "@remix-run/v1-route-convention": "workspace:*",
-    "@types/react": "^18.0.25",
+    "@types/react": "^18.0.30",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
-    "typescript": "^4.8.4"
+    "typescript": "^5.0.2"
   },
   "engines": {
     "node": ">=14"

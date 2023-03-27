@@ -33,12 +33,13 @@ function isRouteModuleFile(filename: string): boolean {
  */
 export function createRoutesFromFolders(
   defineRoutes: DefineRoutesFunction,
-  routesDirectory: string,
+  appDirectory: string,
   ignoredFilePatterns?: string[]
 ): RouteManifest {
+  let routesDirectory = path.join(appDirectory, "routes");
   let files: { [routeId: string]: string } = {};
 
-  // First, find all route modules in their supplied routesDirectory
+  // First, find all route modules in app/routes
   visitFiles(routesDirectory, (file) => {
     if (
       ignoredFilePatterns &&
@@ -59,9 +60,7 @@ export function createRoutesFromFolders(
   });
 
   let routeIds = Object.keys(files).sort(byLongestFirst);
-
   let parentRouteIds = getParentRouteIds(routeIds);
-
   let uniqueRoutes = new Map<string, string>();
 
   // Then, recurse through all routes using the public defineRoutes() API

@@ -117,7 +117,7 @@ describe("defineConventionalRoutes", () => {
         "routes/index": {
           "caseSensitive": undefined,
           "file": "routes${path.sep}index.tsx",
-          "id": "routes${path.sep}index",
+          "id": "routes/index",
           "index": true,
           "parentId": "root",
           "path": undefined,

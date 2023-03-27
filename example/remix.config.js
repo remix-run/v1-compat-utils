@@ -9,6 +9,6 @@ module.exports = {
   future: { v2_routeConvention: true },
   ignoredRouteFiles: ["**/*"],
   routes(defineRoutes) {
-    return createRoutesFromFolders(defineRoutes, "app/routes");
+    return createRoutesFromFolders(defineRoutes, "app");
   },
 };

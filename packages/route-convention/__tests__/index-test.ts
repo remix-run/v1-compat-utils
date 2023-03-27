@@ -110,7 +110,7 @@ describe("defineConventionalRoutes", () => {
   it("creates a route manifest from the routes directory", () => {
     let routes = createRoutesFromFolders(
       defineRoutes,
-      path.join(__dirname, "..", "..", "..", "example", "app", "routes")
+      path.join(__dirname, "..", "..", "..", "example", "app")
     );
     expect(routes).toMatchInlineSnapshot(`
       {

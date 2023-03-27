@@ -110,11 +110,43 @@ describe("defineConventionalRoutes", () => {
   it("creates a route manifest from the routes directory", () => {
     let routes = createRoutesFromFolders(
       defineRoutes,
-      path.join(__dirname, "fixtures", "indie-stack", "app")
+      path.join(__dirname, "..", "..", "..", "example", "app")
     );
-    let keys = Object.keys(routes);
-    expect(keys).toHaveLength(1);
-    expect(keys.filter((key) => routes[key].parentId).length).toBe(1);
-    expect(keys.filter((key) => routes[key].index).length).toBe(1);
+    expect(routes).toMatchInlineSnapshot(`
+      {
+        "routes/index": {
+          "caseSensitive": undefined,
+          "file": "routes/index.tsx",
+          "id": "routes/index",
+          "index": true,
+          "parentId": "root",
+          "path": undefined,
+        },
+        "routes/posts": {
+          "caseSensitive": undefined,
+          "file": "routes/posts.tsx",
+          "id": "routes/posts",
+          "index": undefined,
+          "parentId": "root",
+          "path": "posts",
+        },
+        "routes/posts/$postId": {
+          "caseSensitive": undefined,
+          "file": "routes/posts/$postId.tsx",
+          "id": "routes/posts/$postId",
+          "index": undefined,
+          "parentId": "routes/posts",
+          "path": ":postId",
+        },
+        "routes/posts/index": {
+          "caseSensitive": undefined,
+          "file": "routes/posts/index.tsx",
+          "id": "routes/posts/index",
+          "index": true,
+          "parentId": "routes/posts",
+          "path": undefined,
+        },
+      }
+    `);
   });
 });

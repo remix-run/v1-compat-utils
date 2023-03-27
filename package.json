@@ -1,37 +1,11 @@
 {
-  "name": "@remix-run/route-convention",
-  "version": "0.0.0",
-  "homepage": "https://remix.run",
-  "bugs": {
-    "url": "https://github.com/remix-run/route-convention/issues"
-  },
-  "repository": "remix-run/route-convention",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "module": "dist/index.mjs",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
-  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "tsup",
-    "watch": "tsup --watch",
-    "test": "vitest"
-  },
-  "devDependencies": {
-    "@tsconfig/node16": "^1.0.3",
-    "@types/node": "^18.15.10",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.2",
-    "vitest": "^0.29.7"
-  },
-  "dependencies": {
-    "@remix-run/dev": "^1.14.3",
-    "minimatch": "^7.4.3"
+    "watch": "pnpm run --recursive --if-present watch",
+    "build": "pnpm run --recursive --if-present build",
+    "test": "pnpm run --recursive --if-present test"
   }
 }

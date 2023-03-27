@@ -10,9 +10,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release:
-    if: github.repository == 'remix-run/route-convention'
-    runs-on: ubuntu-latest
+  test:
+    name: "🧪 Test"
+    strategy:
+      fail-fast: true
+      matrix:
+        node:
+          - 14
+          - 16
+          - 18
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -31,8 +42,8 @@ jobs:
       - name: 📥 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 📦 Build packages
+      - name: 🏗 Build
         run: pnpm run build
 
-      - name: 🧪 Test packages
+      - name: "🧪 Test: (OS: ${{ matrix.os }} Node: ${{ matrix.node }})"
         run: pnpm run test

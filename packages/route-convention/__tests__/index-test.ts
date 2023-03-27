@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineRoutes } from "@remix-run/dev/dist/config/routes";
+import { RouteManifest, defineRoutes } from "@remix-run/dev/dist/config/routes";
 import { describe, it, expect } from "vitest";
 
 import { createRoutePath, createRoutesFromFolders } from "../src/lib";
@@ -112,41 +112,42 @@ describe("defineConventionalRoutes", () => {
       defineRoutes,
       path.join(__dirname, "..", "..", "..", "example", "app")
     );
-    expect(routes).toMatchInlineSnapshot(`
-      {
-        "routes/index": {
-          "caseSensitive": undefined,
-          "file": "${path.join("routes", "index.tsx")}",
-          "id": "routes/index",
-          "index": true,
-          "parentId": "root",
-          "path": undefined,
-        },
-        "routes/posts": {
-          "caseSensitive": undefined,
-          "file": "${path.join("routes", "posts.tsx")}",
-          "id": "routes/posts",
-          "index": undefined,
-          "parentId": "root",
-          "path": "posts",
-        },
-        "routes/posts/$postId": {
-          "caseSensitive": undefined,
-          "file": "${path.join("routes", "posts", "$postId.tsx")}",
-          "id": "routes/posts/$postId",
-          "index": undefined,
-          "parentId": "routes/posts",
-          "path": ":postId",
-        },
-        "routes/posts/index": {
-          "caseSensitive": undefined,
-          "file": "${path.join("routes", "posts", "index.tsx")}",
-          "id": "routes/posts/index",
-          "index": true,
-          "parentId": "routes/posts",
-          "path": undefined,
-        },
-      }
-    `);
+
+    let expected: RouteManifest = {
+      "routes/index": {
+        caseSensitive: undefined,
+        file: path.join("routes", "index.tsx"),
+        id: "routes/index",
+        index: true,
+        parentId: "root",
+        path: undefined,
+      },
+      "routes/posts": {
+        caseSensitive: undefined,
+        file: path.join("routes", "posts.tsx"),
+        id: "routes/posts",
+        index: undefined,
+        parentId: "root",
+        path: "posts",
+      },
+      "routes/posts/$postId": {
+        caseSensitive: undefined,
+        file: path.join("routes", "posts", "$postId.tsx"),
+        id: "routes/posts/$postId",
+        index: undefined,
+        parentId: "routes/posts",
+        path: ":postId",
+      },
+      "routes/posts/index": {
+        caseSensitive: undefined,
+        file: path.join("routes", "posts", "index.tsx"),
+        id: "routes/posts/index",
+        index: true,
+        parentId: "routes/posts",
+        path: undefined,
+      },
+    };
+
+    expect(routes).toMatchObject(expected);
   });
 });

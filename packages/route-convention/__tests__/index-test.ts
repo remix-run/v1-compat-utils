@@ -116,7 +116,7 @@ describe("defineConventionalRoutes", () => {
       {
         "routes/index": {
           "caseSensitive": undefined,
-          "file": "routes${path.sep}index.tsx",
+          "file": "${path.join("routes", "index.tsx")}",
           "id": "routes/index",
           "index": true,
           "parentId": "root",
@@ -124,7 +124,7 @@ describe("defineConventionalRoutes", () => {
         },
         "routes/posts": {
           "caseSensitive": undefined,
-          "file": "routes${path.sep}posts.tsx",
+          "file": "${path.join("routes", "posts.tsx")}",
           "id": "routes/posts",
           "index": undefined,
           "parentId": "root",
@@ -132,7 +132,7 @@ describe("defineConventionalRoutes", () => {
         },
         "routes/posts/$postId": {
           "caseSensitive": undefined,
-          "file": "routes${path.sep}posts${path.sep}$postId.tsx",
+          "file": "${path.join("routes", "posts", "$postId.tsx")}",
           "id": "routes/posts/$postId",
           "index": undefined,
           "parentId": "routes/posts",
@@ -140,7 +140,7 @@ describe("defineConventionalRoutes", () => {
         },
         "routes/posts/index": {
           "caseSensitive": undefined,
-          "file": "routes${path.sep}posts${path.sep}index.tsx",
+          "file": "${path.join("routes", "posts", "index.tsx")}",
           "id": "routes/posts/index",
           "index": true,
           "parentId": "routes/posts",

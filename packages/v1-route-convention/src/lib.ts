@@ -33,7 +33,7 @@ function isRouteModuleFile(filename: string): boolean {
  */
 export function createRoutesFromFolders(
   defineRoutes: DefineRoutesFunction,
-  appDirectory: string,
+  appDirectory: string = "app",
   ignoredFilePatterns?: string[]
 ): RouteManifest {
   let routesDirectory = path.join(appDirectory, "routes");

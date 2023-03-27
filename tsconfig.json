@@ -1,0 +1,10 @@
+{
+  "exclude": ["__tests__"],
+  "include": ["src/*"],
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "isolatedModules": true,
+    "noEmit": true
+  }
+}

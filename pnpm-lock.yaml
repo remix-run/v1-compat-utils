@@ -11,8 +11,8 @@ importers:
       '@remix-run/eslint-config': ^1.14.3
       '@remix-run/node': ^1.14.3
       '@remix-run/react': ^1.14.3
-      '@remix-run/route-convention': workspace:*
       '@remix-run/serve': ^1.14.3
+      '@remix-run/v1-route-convention': workspace:*
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.8
       eslint: ^8.27.0
@@ -30,13 +30,13 @@ importers:
     devDependencies:
       '@remix-run/dev': 1.14.3_@remix-run+serve@1.14.3
       '@remix-run/eslint-config': 1.14.3_g4ssdyyxd6zhf5tqd24yazbeaq
-      '@remix-run/route-convention': link:../packages/route-convention
+      '@remix-run/v1-route-convention': link:../packages/v1-route-convention
       '@types/react': 18.0.29
       '@types/react-dom': 18.0.11
       eslint: 8.36.0
       typescript: 4.9.5
 
-  packages/route-convention:
+  packages/v1-route-convention:
     specifiers:
       '@remix-run/dev': ^1.14.3
       '@tsconfig/node16': ^1.0.3

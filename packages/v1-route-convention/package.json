@@ -1,11 +1,11 @@
 {
-  "name": "@remix-run/route-convention",
+  "name": "@remix-run/v1-route-convention",
   "version": "0.0.0",
   "homepage": "https://remix.run",
   "bugs": {
-    "url": "https://github.com/remix-run/route-convention/issues"
+    "url": "https://github.com/remix-run/v1-route-convention/issues"
   },
-  "repository": "remix-run/route-convention",
+  "repository": "remix-run/v1-route-convention",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

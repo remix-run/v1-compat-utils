@@ -116,15 +116,15 @@ describe("defineConventionalRoutes", () => {
       {
         "routes/index": {
           "caseSensitive": undefined,
-          "file": "routes/index.tsx",
-          "id": "routes/index",
+          "file": "routes${path.sep}index.tsx",
+          "id": "routes${path.sep}index",
           "index": true,
           "parentId": "root",
           "path": undefined,
         },
         "routes/posts": {
           "caseSensitive": undefined,
-          "file": "routes/posts.tsx",
+          "file": "routes${path.sep}posts.tsx",
           "id": "routes/posts",
           "index": undefined,
           "parentId": "root",
@@ -132,7 +132,7 @@ describe("defineConventionalRoutes", () => {
         },
         "routes/posts/$postId": {
           "caseSensitive": undefined,
-          "file": "routes/posts/$postId.tsx",
+          "file": "routes${path.sep}posts${path.sep}$postId.tsx",
           "id": "routes/posts/$postId",
           "index": undefined,
           "parentId": "routes/posts",
@@ -140,7 +140,7 @@ describe("defineConventionalRoutes", () => {
         },
         "routes/posts/index": {
           "caseSensitive": undefined,
-          "file": "routes/posts/index.tsx",
+          "file": "routes${path.sep}posts${path.sep}index.tsx",
           "id": "routes/posts/index",
           "index": true,
           "parentId": "routes/posts",

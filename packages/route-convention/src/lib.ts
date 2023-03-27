@@ -33,13 +33,13 @@ function isRouteModuleFile(filename: string): boolean {
  */
 export function createRoutesFromFolders(
   defineRoutes: DefineRoutesFunction,
-  appDirectory: string,
+  routesDirectory: string,
   ignoredFilePatterns?: string[]
 ): RouteManifest {
   let files: { [routeId: string]: string } = {};
 
-  // First, find all route modules in app/routes
-  visitFiles(path.join(appDirectory, "routes"), (file) => {
+  // First, find all route modules in their supplied routesDirectory
+  visitFiles(routesDirectory, (file) => {
     if (
       ignoredFilePatterns &&
       ignoredFilePatterns.some((pattern) => minimatch(file, pattern))
@@ -54,11 +54,12 @@ export function createRoutesFromFolders(
     }
 
     throw new Error(
-      `Invalid route module file: ${path.join(appDirectory, "routes", file)}`
+      `Invalid route module file: ${path.join(routesDirectory, file)}`
     );
   });
 
   let routeIds = Object.keys(files).sort(byLongestFirst);
+
   let parentRouteIds = getParentRouteIds(routeIds);
 
   let uniqueRoutes = new Map<string, string>();
@@ -68,9 +69,9 @@ export function createRoutesFromFolders(
     defineRoute: DefineRouteFunction,
     parentId?: string
   ): void {
-    let childRouteIds = routeIds.filter(
-      (id) => parentRouteIds[id] === parentId
-    );
+    let childRouteIds = routeIds.filter((id) => {
+      return parentRouteIds[id] === parentId;
+    });
 
     for (let routeId of childRouteIds) {
       let routePath: string | undefined = createRoutePath(
@@ -106,9 +107,7 @@ export function createRoutesFromFolders(
           );
         }
 
-        defineRoute(routePath, files[routeId], {
-          index: true,
-        });
+        defineRoute(routePath, files[routeId], { index: true });
       } else {
         defineRoute(routePath, files[routeId], () => {
           defineNestedRoutes(defineRoute, routeId);

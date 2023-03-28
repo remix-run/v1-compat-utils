@@ -7,7 +7,6 @@ module.exports = {
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
   future: { v2_routeConvention: true },
-  ignoredRouteFiles: ["*"],
   routes(defineRoutes) {
     return createRoutesFromFolders(defineRoutes, { routesDirectory: "other" });
   },

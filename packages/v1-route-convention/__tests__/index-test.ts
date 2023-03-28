@@ -108,10 +108,9 @@ describe("createRoutePath", () => {
 
 describe("defineConventionalRoutes", () => {
   it("creates a route manifest from the routes directory", () => {
-    let routes = createRoutesFromFolders(
-      defineRoutes,
-      path.join(__dirname, "..", "..", "..", "example", "app")
-    );
+    let routes = createRoutesFromFolders(defineRoutes, {
+      appDirectory: path.join(__dirname, "..", "..", "..", "example", "app"),
+    });
 
     let expected: RouteManifest = {
       "routes/index": {

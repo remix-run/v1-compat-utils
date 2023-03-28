@@ -110,12 +110,13 @@ describe("defineConventionalRoutes", () => {
   it("creates a route manifest from the routes directory", () => {
     let routes = createRoutesFromFolders(defineRoutes, {
       appDirectory: path.join(__dirname, "..", "..", "..", "example", "app"),
+      routesDirectory: "other",
     });
 
     let expected: RouteManifest = {
       "routes/index": {
         caseSensitive: undefined,
-        file: path.join("routes", "index.tsx"),
+        file: path.join("other", "index.tsx"),
         id: "routes/index",
         index: true,
         parentId: "root",
@@ -123,7 +124,7 @@ describe("defineConventionalRoutes", () => {
       },
       "routes/posts": {
         caseSensitive: undefined,
-        file: path.join("routes", "posts.tsx"),
+        file: path.join("other", "posts.tsx"),
         id: "routes/posts",
         index: undefined,
         parentId: "root",
@@ -131,7 +132,7 @@ describe("defineConventionalRoutes", () => {
       },
       "routes/posts/$postId": {
         caseSensitive: undefined,
-        file: path.join("routes", "posts", "$postId.tsx"),
+        file: path.join("other", "posts", "$postId.tsx"),
         id: "routes/posts/$postId",
         index: undefined,
         parentId: "routes/posts",
@@ -139,7 +140,7 @@ describe("defineConventionalRoutes", () => {
       },
       "routes/posts/index": {
         caseSensitive: undefined,
-        file: path.join("routes", "posts", "index.tsx"),
+        file: path.join("other", "posts", "index.tsx"),
         id: "routes/posts/index",
         index: true,
         parentId: "routes/posts",

@@ -21,8 +21,22 @@ function isRouteModuleFile(filename: string): boolean {
 }
 
 export type CreateRoutesFromFoldersOptions = {
+  /**
+   * The directory where your app lives. Defaults to `app`.
+   * @default "app"
+   */
   appDirectory?: string;
+  /**
+   * A list of glob patterns to ignore when looking for route modules.
+   * Defaults to `[]`.
+   */
   ignoredFilePatterns?: string[];
+  /**
+   * The directory where your routes live. Defaults to `routes`.
+   * This is relative to `appDirectory`.
+   * @default "routes"
+   */
+  routesDirectory?: string;
 };
 
 /**
@@ -40,13 +54,17 @@ export function createRoutesFromFolders(
   defineRoutes: DefineRoutesFunction,
   options: CreateRoutesFromFoldersOptions = {}
 ): RouteManifest {
-  let { appDirectory = "app", ignoredFilePatterns = [] } = options;
+  let {
+    appDirectory = "app",
+    ignoredFilePatterns = [],
+    routesDirectory = "routes",
+  } = options;
 
-  let routesDirectory = path.join(appDirectory, "routes");
+  let appRoutesDirectory = path.join(appDirectory, routesDirectory);
   let files: { [routeId: string]: string } = {};
 
   // First, find all route modules in app/routes
-  visitFiles(routesDirectory, (file) => {
+  visitFiles(appRoutesDirectory, (file) => {
     if (
       ignoredFilePatterns.length > 0 &&
       ignoredFilePatterns.some((pattern) => minimatch(file, pattern))
@@ -55,13 +73,14 @@ export function createRoutesFromFolders(
     }
 
     if (isRouteModuleFile(file)) {
-      let routeId = createRouteId(path.join("routes", file));
-      files[routeId] = path.join("routes", file);
+      let relativePath = path.join(routesDirectory, file);
+      let routeId = createRouteId(relativePath);
+      files[routeId] = relativePath;
       return;
     }
 
     throw new Error(
-      `Invalid route module file: ${path.join(routesDirectory, file)}`
+      `Invalid route module file: ${path.join(appRoutesDirectory, file)}`
     );
   });
 
@@ -80,11 +99,11 @@ export function createRoutesFromFolders(
 
     for (let routeId of childRouteIds) {
       let routePath: string | undefined = createRoutePath(
-        routeId.slice((parentId || "routes").length + 1)
+        routeId.slice((parentId || routesDirectory).length + 1)
       );
 
       let isIndexRoute = routeId.endsWith("/index");
-      let fullPath = createRoutePath(routeId.slice("routes".length + 1));
+      let fullPath = createRoutePath(routeId.slice(routesDirectory.length + 1));
       let uniqueRouteId = (fullPath || "") + (isIndexRoute ? "?index" : "");
 
       if (uniqueRouteId) {
@@ -112,9 +131,9 @@ export function createRoutesFromFolders(
           );
         }
 
-        defineRoute(routePath, files[routeId], { index: true });
+        defineRoute(routePath, files[routeId], { index: true, id: routeId });
       } else {
-        defineRoute(routePath, files[routeId], () => {
+        defineRoute(routePath, files[routeId], { id: routeId }, () => {
           defineNestedRoutes(defineRoute, routeId);
         });
       }

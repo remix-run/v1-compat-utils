@@ -65,3 +65,4 @@ jobs:
         uses: mcansh/release-comment-action@0.2.0
         with:
           DIRECTORY_TO_CHECK: ./packages
+          PACKAGE_VERSION_TO_FOLLOW: "@remix-run/v1-route-convention"

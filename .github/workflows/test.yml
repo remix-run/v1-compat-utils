@@ -29,19 +29,18 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: 🟧 Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: pnpm
 
-      - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: 🟧 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - name: 🏗 Build
         run: pnpm run build

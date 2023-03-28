@@ -20,6 +20,11 @@ function isRouteModuleFile(filename: string): boolean {
   return routeModuleExts.includes(path.extname(filename));
 }
 
+export type CreateRoutesFromFoldersOptions = {
+  appDirectory?: string;
+  ignoredFilePatterns?: string[];
+};
+
 /**
  * Defines routes using the filesystem convention in `app/routes`. The rules are:
  *
@@ -33,16 +38,17 @@ function isRouteModuleFile(filename: string): boolean {
  */
 export function createRoutesFromFolders(
   defineRoutes: DefineRoutesFunction,
-  appDirectory: string = "app",
-  ignoredFilePatterns?: string[]
+  options: CreateRoutesFromFoldersOptions = {}
 ): RouteManifest {
+  let { appDirectory = "app", ignoredFilePatterns = [] } = options;
+
   let routesDirectory = path.join(appDirectory, "routes");
   let files: { [routeId: string]: string } = {};
 
   // First, find all route modules in app/routes
   visitFiles(routesDirectory, (file) => {
     if (
-      ignoredFilePatterns &&
+      ignoredFilePatterns.length > 0 &&
       ignoredFilePatterns.some((pattern) => minimatch(file, pattern))
     ) {
       return;

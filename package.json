@@ -6,7 +6,10 @@
   "scripts": {
     "watch": "pnpm run --recursive --if-present watch",
     "build": "pnpm run --recursive --if-present build",
-    "test": "pnpm run --recursive --if-present test"
+    "test": "pnpm run --recursive --if-present test",
+    "changeset": "changeset",
+    "changeset:version": "changeset version && node ./scripts/remove-prerelease-changelogs.mjs && node ./scripts/patchup-version.mjs",
+    "changeset:release": "pnpm run build && changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.1",

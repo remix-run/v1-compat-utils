@@ -20,8 +20,6 @@ function isRouteModuleFile(filename: string): boolean {
   return routeModuleExts.includes(path.extname(filename));
 }
 
-let ROUTE_ID_PREFIX = "routes" as const;
-
 export type CreateRoutesFromFoldersOptions = {
   /**
    * The directory where your app lives. Defaults to `app`.
@@ -59,7 +57,7 @@ export function createRoutesFromFolders(
   let {
     appDirectory = "app",
     ignoredFilePatterns = [],
-    routesDirectory = ROUTE_ID_PREFIX,
+    routesDirectory = "routes",
   } = options;
 
   let appRoutesDirectory = path.join(appDirectory, routesDirectory);
@@ -75,9 +73,9 @@ export function createRoutesFromFolders(
     }
 
     if (isRouteModuleFile(file)) {
-      // routeId should always start with "routes/" so that a developer doesn't need to change any code when using useMatches or useLoaderRouteData
-      let routeId = createRouteId(path.join(ROUTE_ID_PREFIX, file));
-      files[routeId] = path.join(routesDirectory, file);
+      let relativePath = path.join(routesDirectory, file);
+      let routeId = createRouteId(relativePath);
+      files[routeId] = relativePath;
       return;
     }
 
@@ -101,11 +99,11 @@ export function createRoutesFromFolders(
 
     for (let routeId of childRouteIds) {
       let routePath: string | undefined = createRoutePath(
-        routeId.slice((parentId || ROUTE_ID_PREFIX).length + 1)
+        routeId.slice((parentId || routesDirectory).length + 1)
       );
 
       let isIndexRoute = routeId.endsWith("/index");
-      let fullPath = createRoutePath(routeId.slice(ROUTE_ID_PREFIX.length + 1));
+      let fullPath = createRoutePath(routeId.slice(routesDirectory.length + 1));
       let uniqueRouteId = (fullPath || "") + (isIndexRoute ? "?index" : "");
 
       if (uniqueRouteId) {

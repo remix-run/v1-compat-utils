@@ -114,36 +114,36 @@ describe("defineConventionalRoutes", () => {
     });
 
     let expected: RouteManifest = {
-      "routes/index": {
+      "other/index": {
         caseSensitive: undefined,
         file: path.join("other", "index.tsx"),
-        id: "routes/index",
+        id: "other/index",
         index: true,
         parentId: "root",
         path: undefined,
       },
-      "routes/posts": {
+      "other/posts": {
         caseSensitive: undefined,
         file: path.join("other", "posts.tsx"),
-        id: "routes/posts",
+        id: "other/posts",
         index: undefined,
         parentId: "root",
         path: "posts",
       },
-      "routes/posts/$postId": {
+      "other/posts/$postId": {
         caseSensitive: undefined,
         file: path.join("other", "posts", "$postId.tsx"),
-        id: "routes/posts/$postId",
+        id: "other/posts/$postId",
         index: undefined,
-        parentId: "routes/posts",
+        parentId: "other/posts",
         path: ":postId",
       },
-      "routes/posts/index": {
+      "other/posts/index": {
         caseSensitive: undefined,
         file: path.join("other", "posts", "index.tsx"),
-        id: "routes/posts/index",
+        id: "other/posts/index",
         index: true,
-        parentId: "routes/posts",
+        parentId: "other/posts",
         path: undefined,
       },
     };

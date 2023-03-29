@@ -1,0 +1,7 @@
+*.yml
+*.yaml
+**/node_modules
+**/dist
+example/build
+example/.cache
+examples/public

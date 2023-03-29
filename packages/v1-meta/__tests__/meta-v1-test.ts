@@ -9,62 +9,6 @@ if (import.meta.env.TEST_BUILD) {
   } catch (_) {}
 }
 
-const DEFAULT_ARGS: MetaArgs = {
-  data: { post: { title: "hello" } },
-  matches: [
-    {
-      data: { user: { name: "joe" } },
-      id: "root",
-      meta: [
-        { tagName: "link", rel: "icon", href: "/favicon.ico" },
-        { name: "description", content: "pretty sick site bro" },
-      ],
-      params: {},
-      pathname: "/",
-    },
-    {
-      data: {
-        posts: [
-          { id: 1, title: "hello" },
-          { id: 2, title: "goodbye" },
-        ],
-      },
-      id: "routes/blog",
-      meta: [
-        { title: "my blog" },
-        {
-          property: "og:title",
-          content: "welcome to my blog",
-        },
-        {
-          "script:ld+json": {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: "my blog",
-          },
-        },
-      ],
-      params: {},
-      pathname: "/blog",
-    },
-    {
-      data: { post: { id: 1, title: "hello" } },
-      id: "routes/blog.$id",
-      meta: [],
-      params: {},
-      pathname: "/blog/1",
-    },
-  ],
-  params: {},
-  location: {
-    pathname: "/blog/hello",
-    search: "",
-    hash: "",
-    state: {},
-    key: "",
-  },
-};
-
 describe("metaV1", () => {
   let warn = console.warn;
   beforeEach(() => {
@@ -75,81 +19,208 @@ describe("metaV1", () => {
   });
 
   it("appends new properties", () => {
-    let meta = metaV1(DEFAULT_ARGS, {
-      "twitter:card": "summary",
-    });
+    let args = mockArgs([
+      {
+        id: "root",
+        meta: [
+          { tagName: "link", rel: "icon", href: "/favicon.ico" },
+          { title: "my blog" },
+          { name: "description", content: "pretty sick site bro" },
+        ],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, { "twitter:card": "summary" });
     expect(meta).toEqual([
       { tagName: "link", rel: "icon", href: "/favicon.ico" },
-      { name: "description", content: "pretty sick site bro" },
       { title: "my blog" },
-      { property: "og:title", content: "welcome to my blog" },
+      { name: "description", content: "pretty sick site bro" },
+      { name: "twitter:card", content: "summary", key: "twitter:cardsummary" },
+    ]);
+  });
+
+  it("only merges with direct parent meta", () => {
+    let args = mockArgs([
       {
-        "script:ld+json": {
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: "my blog",
-        },
+        id: "root",
+        meta: [
+          { tagName: "link", rel: "icon", href: "/favicon.ico" },
+          { title: "my site" },
+          { name: "description", content: "pretty sick site bro" },
+        ],
       },
-      { name: "twitter:card", content: "summary", key: expect.any(String) },
+      {
+        id: "blog",
+        meta: [{ title: "my blog" }],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, { "twitter:card": "summary" });
+    expect(meta).toEqual([
+      { title: "my blog" },
+      { name: "twitter:card", content: "summary", key: "twitter:cardsummary" },
     ]);
   });
 
   it("overrides 'title' property", () => {
-    let match = DEFAULT_ARGS.matches[2] as any;
-    let meta = metaV1(DEFAULT_ARGS, {
-      title: match.data.post.title,
+    let args = mockArgs([
+      {
+        id: "root",
+        meta: [
+          { tagName: "link", rel: "icon", href: "/favicon.ico" },
+          { title: "my site" },
+          { name: "description", content: "pretty sick site bro" },
+        ],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+
+    let meta = metaV1(args, {
+      title: "my blog",
     });
     expect(meta).toEqual([
       { tagName: "link", rel: "icon", href: "/favicon.ico" },
       { name: "description", content: "pretty sick site bro" },
-      { title: "hello", key: expect.any(String) },
-      { property: "og:title", content: "welcome to my blog" },
-      {
-        "script:ld+json": {
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: "my blog",
-        },
-      },
+      { title: "my blog", key: expect.any(String) },
     ]);
   });
 
   it("overrides 'description' property", () => {
-    let meta = metaV1(DEFAULT_ARGS, {
-      description: "foo",
+    let args = mockArgs([
+      {
+        id: "root",
+        meta: [
+          { tagName: "link", rel: "icon", href: "/favicon.ico" },
+          { title: "my site" },
+          { name: "description", content: "pretty sick site bro" },
+        ],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, {
+      description: "pretty sick page bro",
     });
     expect(meta).toEqual([
       { tagName: "link", rel: "icon", href: "/favicon.ico" },
-      { name: "description", content: "foo", key: expect.any(String) },
-      { title: "my blog" },
-      { property: "og:title", content: "welcome to my blog" },
+      { title: "my site" },
       {
-        "script:ld+json": {
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: "my blog",
-        },
+        name: "description",
+        content: "pretty sick page bro",
+        key: expect.any(String),
       },
     ]);
   });
 
   it("overrides 'og:*' property", () => {
-    let match = DEFAULT_ARGS.matches[2] as any;
-    let meta = metaV1(DEFAULT_ARGS, {
-      "og:title": match.data.post.title,
+    let args = mockArgs([
+      {
+        id: "root",
+        meta: [
+          { tagName: "link", rel: "icon", href: "/favicon.ico" },
+          { title: "my site" },
+          { property: "og:title", content: "my site" },
+          { name: "description", content: "pretty sick site bro" },
+        ],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, {
+      title: "my page | my site",
+      "og:title": "my page",
     });
     expect(meta).toEqual([
       { tagName: "link", rel: "icon", href: "/favicon.ico" },
       { name: "description", content: "pretty sick site bro" },
-      { title: "my blog" },
-      { property: "og:title", content: "hello", key: expect.any(String) },
+      { title: "my page | my site", key: expect.any(String) },
+      { property: "og:title", content: "my page", key: expect.any(String) },
+    ]);
+  });
+
+  it("supports array properties", () => {
+    let args = mockArgs([
       {
-        "script:ld+json": {
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: "my blog",
-        },
+        id: "root",
+        meta: [{ title: "my site" }],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, {
+      "og:image": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+      ],
+    });
+    expect(meta).toEqual([
+      { title: "my site" },
+      {
+        property: "og:image",
+        content: "https://example.com/image1.jpg",
+        key: expect.any(String),
+      },
+      {
+        property: "og:image",
+        content: "https://example.com/image2.jpg",
+        key: expect.any(String),
+      },
+    ]);
+  });
+
+  it("overrides with array properties", () => {
+    let args = mockArgs([
+      {
+        id: "root",
+        meta: [
+          { property: "og:image", content: "https://example.com/image0.jpg" },
+        ],
+      },
+      { id: "leaf", meta: [] },
+    ]);
+    let meta = metaV1(args, {
+      "og:image": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+      ],
+    });
+    expect(meta).toEqual([
+      {
+        property: "og:image",
+        content: "https://example.com/image1.jpg",
+        key: expect.any(String),
+      },
+      {
+        property: "og:image",
+        content: "https://example.com/image2.jpg",
+        key: expect.any(String),
       },
     ]);
   });
 });
+
+function mockArgs(
+  items: Array<{
+    id: string;
+    meta: MetaArgs["matches"][number]["meta"];
+    data?: any;
+    params?: Record<string, string>;
+    pathname?: string;
+  }>
+): MetaArgs {
+  let matches = items.map(
+    ({ id, meta, data = null, params = {}, pathname = "/" }) => {
+      return {
+        id,
+        meta,
+        data,
+        params,
+        pathname,
+      } as MetaArgs<any, any>["matches"][number];
+    }
+  );
+  let leafMatch = matches[matches.length - 1];
+  return {
+    matches,
+    data: leafMatch.data,
+    params: leafMatch.params,
+    location: { pathname: "/", hash: "", search: "", key: "", state: {} },
+  };
+}

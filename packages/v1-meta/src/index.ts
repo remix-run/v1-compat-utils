@@ -11,19 +11,36 @@ function metaV1<
   args: MetaArgs<Loader, MatchLoaders>,
   metaData: V1_MetaDescriptor
 ): MetaDescriptor[] {
-  return mergeMeta(args, fromMetaData(metaData));
+  let matches = [...args.matches];
+  let parentMatch = matches[matches.length - 2];
+  let parentMeta = parentMatch?.meta || [];
+  return mergeMeta(parentMeta, fromMetaData(metaData));
 }
 
-function mergeMeta<
-  Loader extends LoaderFunction | unknown = unknown,
-  MatchLoaders extends Record<string, unknown> = Record<string, unknown>
->(
-  args: MetaArgs<Loader, MatchLoaders>,
+function mergeMeta(
+  parentMeta: MetaDescriptor[],
   routeMeta: MetaDescriptor[]
 ): MetaDescriptor[] {
-  let matches = [...args.matches];
-  let parentMeta = matches.flatMap((match) => match.meta);
-  return dedupeMetaDescriptors([...parentMeta, ...routeMeta]);
+  let excluded = new Set<string>();
+  let inherited: MetaDescriptor[] = [];
+  for (let parent of parentMeta) {
+    let key = getMetaKey(parent);
+    if (!key) {
+      inherited.push(parent);
+      continue;
+    }
+    if (excluded.has(key)) {
+      continue;
+    }
+    let overrides = routeMeta.filter((meta) => getMetaKey(meta) === key);
+    if (overrides.length >= 1) {
+      excluded.add(key);
+    } else {
+      inherited.push(parent);
+    }
+  }
+
+  return [...inherited, ...routeMeta];
 }
 
 function fromMetaData(metaData: V1_MetaDescriptor): MetaDescriptor[] {
@@ -33,12 +50,12 @@ function fromMetaData(metaData: V1_MetaDescriptor): MetaDescriptor[] {
         return null;
       }
 
-      if (["charset", "charSet"].includes(name)) {
-        return { key: "charSet", charSet: String(value) };
-      }
-
       if (name === "title") {
         return { key: "title", title: String(value) };
+      }
+
+      if (["charset", "charSet"].includes(name)) {
+        return { key: "charSet", charSet: String(value) };
       }
 
       return [value].flat().map<MetaDescriptor | null>((content) => {
@@ -87,7 +104,8 @@ function getMetaKey(metaDescriptor: MetaDescriptor) {
 
   if (
     "property" in metaDescriptor &&
-    typeof metaDescriptor.property === "string"
+    typeof metaDescriptor.property === "string" &&
+    isOpenGraphTag(metaDescriptor.property)
   ) {
     return metaDescriptor.property;
   }
@@ -124,18 +142,6 @@ function isPlainObject(value: unknown): value is Record<keyof any, unknown> {
 
 function isTruthy<V>(value: V | null | undefined): value is V {
   return value != null;
-}
-
-function dedupeMetaDescriptors(arr: MetaDescriptor[]) {
-  let uniques: Record<string, MetaDescriptor> = {};
-  let i = 0;
-  for (let item of arr) {
-    let key = getMetaKey(item);
-    if (key === null) key = `__null__${i}`;
-    uniques[key] = item;
-    i++;
-  }
-  return Object.values(uniques);
 }
 
 interface V1_MetaDescriptor {

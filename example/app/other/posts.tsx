@@ -5,6 +5,8 @@ import { metaV1 } from "@remix-run/v1-meta";
 export function meta(args: V2_MetaArgs) {
   return metaV1(args, {
     title: "Posts",
+    description: "All the posts",
+    "og:image": ["https://remix.run/logo.png", "https://remix.run/logo2.png"],
   });
 }
 

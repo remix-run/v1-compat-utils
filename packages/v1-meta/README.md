@@ -1,8 +1,17 @@
-# V1 Route Convention
+# V1 Meta
 
-```js
-// remix.config.js
-const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
+```tsx
+import { metaV1 } from "@remix-run/v1-meta";
 
-exports.routes = (defineRoutes) => createRoutesFromFolders(defineRoutes);
+export function meta(args) {
+  return metaV1(args, {
+    title: "My App",
+    description: "My App Description",
+  });
+  //   return [
+  //     { charSet: "utf-8" }, // inherited!
+  //     { title: "My App" },
+  //     { name: "description", content: "My App Description" },
+  //   ];
+}
 ```

@@ -65,9 +65,14 @@ describe("mergeMeta", () => {
   });
 
   it("appends new properties", () => {
-    let meta = mergeMeta(DEFAULT_ARGS, [
-      { name: "twitter:card", content: "summary" },
-    ]);
+    let meta = mergeMeta(
+      [
+        { name: "description", content: "pretty sick site bro" },
+        { title: "my blog" },
+        { property: "og:title", content: "welcome to my blog" },
+      ],
+      [{ name: "twitter:card", content: "summary" }]
+    );
     expect(meta).toEqual([
       { name: "description", content: "pretty sick site bro" },
       { title: "my blog" },
@@ -78,47 +83,71 @@ describe("mergeMeta", () => {
 
   it("overrides 'title' property", () => {
     let match = DEFAULT_ARGS.matches[2] as any;
-    let meta = mergeMeta(DEFAULT_ARGS, [{ title: match.data.post.title }]);
+    let meta = mergeMeta(
+      [
+        { title: "hello" },
+        { name: "description", content: "pretty sick site bro" },
+        { property: "og:title", content: "welcome to my blog" },
+      ],
+      [{ title: match.data.post.title }]
+    );
     expect(meta).toEqual([
       { name: "description", content: "pretty sick site bro" },
-      { title: "hello" },
       { property: "og:title", content: "welcome to my blog" },
+      { title: "hello" },
     ]);
   });
 
   it("overrides 'description' property", () => {
-    let meta = mergeMeta(DEFAULT_ARGS, [
-      { name: "description", content: "foo" },
-    ]);
+    let meta = mergeMeta(
+      [
+        { title: "my blog" },
+        { name: "description", content: "foo" },
+        { property: "og:title", content: "welcome to my blog" },
+      ],
+      [{ name: "description", content: "bar" }]
+    );
     expect(meta).toEqual([
-      { name: "description", content: "foo" },
       { title: "my blog" },
       { property: "og:title", content: "welcome to my blog" },
+      { name: "description", content: "bar" },
     ]);
   });
 
   it("overrides 'og:*' property", () => {
     let match = DEFAULT_ARGS.matches[2] as any;
-    let meta = mergeMeta(DEFAULT_ARGS, [
-      { property: "og:title", content: match.data.post.title },
-    ]);
+    let meta = mergeMeta(
+      [
+        { title: "my blog" },
+        { property: "og:title", content: "my blog" },
+        { name: "description", content: "pretty sick site bro" },
+      ],
+      [{ property: "og:title", content: match.data.post.title }]
+    );
     expect(meta).toEqual([
-      { name: "description", content: "pretty sick site bro" },
       { title: "my blog" },
+      { name: "description", content: "pretty sick site bro" },
       { property: "og:title", content: "hello" },
     ]);
   });
 
-  it("dedupes multiple entries", () => {
-    let meta = mergeMeta(DEFAULT_ARGS, [
-      { name: "description", content: "foo" },
-      { name: "description", content: "bar" },
-    ]);
+  it("does not dedupe multiple entries", () => {
+    let meta = mergeMeta(
+      [
+        { title: "my blog" },
+        { property: "og:title", content: "welcome to my blog" },
+        { name: "description", content: "foo" },
+      ],
+      [
+        { name: "description", content: "bar" },
+        { name: "description", content: "baz" },
+      ]
+    );
     expect(meta).toEqual([
-      // last one wins!
-      { name: "description", content: "bar" },
       { title: "my blog" },
       { property: "og:title", content: "welcome to my blog" },
+      { name: "description", content: "bar" },
+      { name: "description", content: "baz" },
     ]);
   });
 });

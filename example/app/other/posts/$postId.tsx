@@ -5,6 +5,7 @@ import { metaV1 } from "@remix-run/v1-meta";
 export function meta(args: V2_MetaArgs) {
   return metaV1(args, {
     title: `Post ${args.params.postId}`,
+    description: "This is a post",
   });
 }
 

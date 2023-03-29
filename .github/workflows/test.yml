@@ -46,4 +46,4 @@ jobs:
         run: pnpm run build
 
       - name: "🧪 Test: (OS: ${{ matrix.os }} Node: ${{ matrix.node }})"
-        run: pnpm run test
+        run: TEST_BUILD=true pnpm run test

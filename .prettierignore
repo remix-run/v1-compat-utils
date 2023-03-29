@@ -4,4 +4,4 @@
 **/dist
 example/build
 example/.cache
-examples/public
+example/public/build

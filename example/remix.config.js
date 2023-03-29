@@ -6,7 +6,10 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
-  future: { v2_routeConvention: true },
+  future: {
+    v2_meta: true,
+    v2_routeConvention: true,
+  },
   routes(defineRoutes) {
     return createRoutesFromFolders(defineRoutes, { routesDirectory: "other" });
   },

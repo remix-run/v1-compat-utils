@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function () {
+export default function PostsIndex() {
   return (
     <div>
       <h1>Posts</h1>

@@ -59,6 +59,9 @@ importers:
       '@remix-run/eslint-config':
         specifier: 1.15.0-pre.2
         version: 1.15.0-pre.2(eslint@8.36.0)(react@18.2.0)(typescript@5.0.2)
+      '@remix-run/v1-meta':
+        specifier: workspace:*
+        version: link:../packages/v1-meta
       '@remix-run/v1-route-convention':
         specifier: workspace:*
         version: link:../packages/v1-route-convention

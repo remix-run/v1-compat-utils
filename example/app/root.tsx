@@ -1,3 +1,4 @@
+import type { V2_MetaArgs } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -6,13 +7,20 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { metaV1 } from "@remix-run/v1-meta";
+
+export function meta(args: V2_MetaArgs) {
+  return metaV1(args, {
+    charSet: "utf-8",
+    viewport: "width=device-width,initial-scale=1",
+    title: "Remix Example",
+  });
+}
 
 export default function App() {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>

@@ -23,28 +23,7 @@ function mergeMeta<
 ): MetaDescriptor[] {
   let matches = [...args.matches];
   let parentMeta = matches.flatMap((match) => match.meta);
-  let replacements = new Map<
-    string,
-    { index: number; descriptor: MetaDescriptor }
-  >();
-  for (let descriptor of routeMeta) {
-    let key = getMetaKey(descriptor);
-    if (key === null || replacements.has(key)) continue;
-    let removeIndex = findIndexFromEnd(
-      parentMeta,
-      (p) => getMetaKey(p) === key
-    );
-    if (removeIndex >= 0) {
-      replacements.set(key, { index: removeIndex, descriptor });
-    }
-  }
-
-  let routeMetaCopy = [...routeMeta];
-  for (let { index, descriptor } of replacements.values()) {
-    parentMeta[index] = descriptor;
-    routeMetaCopy.splice(routeMeta.indexOf(descriptor), 1);
-  }
-  return [...parentMeta, ...routeMetaCopy];
+  return dedupeMetaDescriptors([...parentMeta, ...routeMeta]);
 }
 
 function fromMetaData(metaData: V1_MetaDescriptor): MetaDescriptor[] {
@@ -147,17 +126,16 @@ function isTruthy<V>(value: V | null | undefined): value is V {
   return value != null;
 }
 
-function findIndexFromEnd<T>(
-  array: T[],
-  predicate: (value: T, index: number, array: T[]) => boolean
-) {
-  let i = array.length;
-  while (i--) {
-    if (predicate(array[i], i, array)) {
-      return i;
-    }
+function dedupeMetaDescriptors(arr: MetaDescriptor[]) {
+  let uniques: Record<string, MetaDescriptor> = {};
+  let i = 0;
+  for (let item of arr) {
+    let key = getMetaKey(item);
+    if (key === null) key = `__null__${i}`;
+    uniques[key] = item;
+    i++;
   }
-  return -1;
+  return Object.values(uniques);
 }
 
 interface V1_MetaDescriptor {

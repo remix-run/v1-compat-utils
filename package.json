@@ -4,6 +4,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "pnpm run --recursive --if-present dev",
     "watch": "pnpm run --recursive --if-present watch",
     "build": "pnpm run --recursive --if-present build",
     "test": "pnpm run --recursive --if-present test",

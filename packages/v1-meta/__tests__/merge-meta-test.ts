@@ -109,18 +109,16 @@ describe("mergeMeta", () => {
     ]);
   });
 
-  it("does not dedupe multiple entries", () => {
+  it("dedupes multiple entries", () => {
     let meta = mergeMeta(DEFAULT_ARGS, [
       { name: "description", content: "foo" },
       { name: "description", content: "bar" },
     ]);
     expect(meta).toEqual([
-      // first one replaces the inherited value and is inserted at its index
-      { name: "description", content: "foo" },
+      // last one wins!
+      { name: "description", content: "bar" },
       { title: "my blog" },
       { property: "og:title", content: "welcome to my blog" },
-      // we don't dedupe multiple entries, so the second one is appended to the end
-      { name: "description", content: "bar" },
     ]);
   });
 });

@@ -1,7 +1,5 @@
 # V1 Route Convention
 
-## Usage
-
 ```js
 // remix.config.js
 const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");

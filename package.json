@@ -9,11 +9,12 @@
     "build": "pnpm run --recursive --if-present build",
     "test": "pnpm run --recursive --if-present test",
     "changeset": "changeset",
-    "changeset:version": "changeset version && node ./scripts/remove-prerelease-changelogs.mjs && node ./scripts/patchup-version.mjs",
+    "changeset:version": "changeset version && node ./scripts/remove-prerelease-changelogs.mjs",
     "changeset:release": "pnpm run build && changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.1",
+    "@manypkg/get-packages": "^2.1.0",
     "@remix-run/changelog-github": "^0.0.5",
     "@tsconfig/node16": "^1.0.3",
     "@types/node": "^18.15.11",

@@ -1,5 +1,5 @@
 {
-  "name": "@remix-run/v1-route-convention",
+  "name": "@remix-run/v1-meta",
   "version": "0.0.0",
   "homepage": "https://remix.run",
   "bugs": {
@@ -23,13 +23,13 @@
     "watch": "tsup --watch",
     "test": "vitest"
   },
-  "dependencies": {
-    "minimatch": "^7.4.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@remix-run/dev": "1.15.0-pre.2"
+    "@remix-run/react": "1.15.0-pre.2",
+    "@remix-run/server-runtime": "1.15.0-pre.2"
   },
   "peerDependencies": {
-    "@remix-run/dev": "^1.15.0"
+    "@remix-run/react": "^1.15.0",
+    "@remix-run/server-runtime": "^1.15.0"
   }
 }

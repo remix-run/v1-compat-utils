@@ -4,6 +4,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "pnpm run --recursive --if-present dev",
     "watch": "pnpm run --recursive --if-present watch",
     "build": "pnpm run --recursive --if-present build",
     "test": "pnpm run --recursive --if-present test",
@@ -19,6 +20,7 @@
     "prettier": "^2.8.7",
     "tsup": "^6.7.0",
     "typescript": "^5.0.2",
-    "vitest": "^0.29.7"
+    "vite": "^4.2.1",
+    "vitest": "^0.29.8"
   }
 }

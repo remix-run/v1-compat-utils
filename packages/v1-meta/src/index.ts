@@ -90,14 +90,13 @@ function fromMetaData(metaData: V1_MetaDescriptor): MetaDescriptor[] {
   return meta;
 }
 
-function getParentsData<
+function getMatchesData<
   Loader extends unknown = unknown,
   MatchLoaders extends Record<string, unknown> = Record<string, unknown>
 >(args: MetaArgs<Loader, MatchLoaders>) {
   let { matches } = args;
   return matches.reduce(
     (data, match) => {
-      if (data === args.data) return data;
       return {
         ...data,
         [match.id]: match.data,
@@ -188,5 +187,5 @@ interface V1_MetaDescriptor {
     | Array<Record<string, string> | string>;
 }
 
-export { fromMetaData, getParentsData, metaV1, mergeMeta };
+export { fromMetaData, getMatchesData, metaV1, mergeMeta };
 export type { V1_MetaDescriptor };

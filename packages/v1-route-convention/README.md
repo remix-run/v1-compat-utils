@@ -4,22 +4,19 @@
 // remix.config.js
 const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
 
-// tell Remix to ignore everything in the routes directory 
-// we'll let `createRoutesFromFolders` take care of that
-exports.ignoredRouteFiles = ["**/*"];
-exports.routes = (defineRoutes) => createRoutesFromFolders(defineRoutes);
-```
-
-> **Note**
-> If you're already using `ignoredRouteFiles` you can move that to the plugin to keep using it
-
-```diff
-// remix.config.js
-const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
-
-- exports.ignoredRouteFiles = ["**/.*"];
-+ exports.ignoredRouteFiles = ["**/*"];
-+ exports.routes = (defineRoutes) => createRoutesFromFolders(defineRoutes, { 
-+   ignoredFilePatterns: ["**/.*"] 
-+ });
+/** @type {import('@remix-run/dev').AppConfig} */
+module.exports = {
+  // Tell Remix to ignore everything in the routes directory.
+  // We'll let `createRoutesFromFolders` take care of that.
+  ignoredRouteFiles: ["**/*"],
+  routes: (defineRoutes) => {
+    // `createRoutesFromFolders` will create routes for all files in the
+    // routes directory using the same default conventions as Remix v1.
+    return createRoutesFromFolders(defineRoutes, {
+      // If you're already using `ignoredRouteFiles` in your Remix config,
+      // you can move them to `ignoredFilePatterns` in the plugin's options.
+      ignoredFilePatterns: ["**/.*", "**/*.css"],
+    });
+  },
+};
 ```

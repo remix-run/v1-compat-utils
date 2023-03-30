@@ -14,7 +14,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   release:
     name: 🦋 Changesets Release
-    if: github.repository == 'remix-run/v1-route-convention'
+    if: github.repository == 'remix-run/v1-compat-utils'
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -58,10 +58,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: 📝 Comment on related issues and pull requests
-        if: steps.changesets.outputs.published == 'true'
-        uses: mcansh/release-comment-action@0.2.0
-        with:
-          DIRECTORY_TO_CHECK: ./packages
-          PACKAGE_VERSION_TO_FOLLOW: "@remix-run/v1-route-convention"

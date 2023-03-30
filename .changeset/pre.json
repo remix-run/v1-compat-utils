@@ -6,6 +6,7 @@
     "@remix-run/v1-route-convention": "0.0.0"
   },
   "changesets": [
-    "fast-bats-fold"
+    "fast-bats-fold",
+    "ten-apes-rest"
   ]
 }

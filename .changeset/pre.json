@@ -5,5 +5,7 @@
     "@remix-run/v1-meta": "0.0.0",
     "@remix-run/v1-route-convention": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "fast-bats-fold"
+  ]
 }

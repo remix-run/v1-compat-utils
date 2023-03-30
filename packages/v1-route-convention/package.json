@@ -31,5 +31,12 @@
   },
   "peerDependencies": {
     "@remix-run/dev": "^1.15.0"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ]
 }

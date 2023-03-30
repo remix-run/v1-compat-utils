@@ -33,5 +33,12 @@
   "peerDependencies": {
     "@remix-run/react": "^1.15.0",
     "@remix-run/server-runtime": "^1.15.0"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ]
 }

@@ -27,7 +27,7 @@
     "minimatch": "^7.4.3"
   },
   "devDependencies": {
-    "@remix-run/dev": "1.15.0-pre.3"
+    "@remix-run/dev": "^1.15.0"
   },
   "peerDependencies": {
     "@remix-run/dev": "^1.15.0"

@@ -15,10 +15,10 @@ const STABLE_HEADING_REGEXP = /^\d+\.\d+\.\d+$/i;
 main();
 
 async function main() {
-  //   if (isPrereleaseMode()) {
-  //     console.log("🚫 Skipping changelog removal in prerelease mode");
-  //     return;
-  //   }
+  if (isPrereleaseMode()) {
+    console.log("🚫 Skipping changelog removal in prerelease mode");
+    return;
+  }
   await removePreReleaseChangelogs();
   console.log("✅ Removed pre-release changelogs");
 }

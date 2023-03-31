@@ -2,7 +2,7 @@ import type {
   V2_MetaArgs as MetaArgs,
   V2_MetaDescriptor as MetaDescriptor,
 } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
+import type { LoaderFunction, SerializeFrom } from "@remix-run/server-runtime";
 
 function metaV1<
   Loader extends LoaderFunction | unknown = unknown,
@@ -90,6 +90,38 @@ function fromMetaData(metaData: V1_MetaDescriptor): MetaDescriptor[] {
   return meta;
 }
 
+function getMatchesData<
+  Loader extends unknown = unknown,
+  MatchLoaders extends Record<string, unknown> = Record<string, unknown>
+>(args: MetaArgs<Loader, MatchLoaders>) {
+  let { matches } = args;
+  return matches.reduce(
+    (data, match) => {
+      return {
+        ...data,
+        [match.id]: match.data,
+      };
+    },
+    {} as {
+      [K in keyof MatchLoaders]: MatchLoaders[K] extends LoaderFunction
+        ? SerializeFrom<MatchLoaders[K]>
+        : unknown;
+    }
+  );
+}
+
+export interface V2_MetaMatch<
+  RouteId extends string = string,
+  Loader extends LoaderFunction | unknown = unknown
+> {
+  id: RouteId;
+  pathname: string;
+  data: Loader extends LoaderFunction ? SerializeFrom<Loader> : unknown;
+  handle?: unknown;
+  params: {};
+  meta: MetaDescriptor[];
+}
+
 function getMetaKey(metaDescriptor: MetaDescriptor) {
   if ("title" in metaDescriptor && metaDescriptor.title != null) {
     return "title";
@@ -155,5 +187,5 @@ interface V1_MetaDescriptor {
     | Array<Record<string, string> | string>;
 }
 
-export { fromMetaData, metaV1, mergeMeta };
+export { fromMetaData, getMatchesData, metaV1, mergeMeta };
 export type { V1_MetaDescriptor };

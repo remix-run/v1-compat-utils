@@ -1,6 +1,6 @@
 {
   "name": "@remix-run/v1-meta",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "https://remix.run",
   "bugs": {
     "url": "https://github.com/remix-run/v1-compat-utils/issues"
@@ -33,5 +33,12 @@
   "peerDependencies": {
     "@remix-run/react": "^1.15.0",
     "@remix-run/server-runtime": "^1.15.0"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ]
 }

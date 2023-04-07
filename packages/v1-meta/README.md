@@ -1,5 +1,7 @@
 # V1 Meta
 
+Enables the [v1 route meta API][https://remix.run/docs/en/v1/route/meta] in Remix v2.
+
 ```tsx
 import { metaV1, getMatchesData } from "@remix-run/v1-meta";
 

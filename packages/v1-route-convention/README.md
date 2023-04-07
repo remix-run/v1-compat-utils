@@ -1,5 +1,7 @@
 # V1 Route Convention
 
+Enables the [v1 route file convention][https://remix.run/docs/en/v1/file-conventions/routes-files] in Remix v2.
+
 ```js
 // remix.config.js
 const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");

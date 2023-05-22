@@ -150,4 +150,92 @@ describe("defineConventionalRoutes", () => {
 
     expect(routes).toMatchObject(expected);
   });
+
+  it("supports sibling pathless layout routes", () => {
+    let routes = createRoutesFromFolders(defineRoutes, {
+      appDirectory: path.join(
+        __dirname,
+        "fixtures",
+        "sibling-pathless-layout-routes"
+      ),
+    });
+
+    expect(routes).toEqual({
+      "routes/__a": {
+        file: "routes/__a.tsx",
+        id: "routes/__a",
+        parentId: "root",
+      },
+      "routes/__a/a": {
+        file: "routes/__a/a.tsx",
+        id: "routes/__a/a",
+        parentId: "routes/__a",
+        path: "a",
+      },
+      "routes/__a/index": {
+        file: "routes/__a/index.tsx",
+        id: "routes/__a/index",
+        index: true,
+        parentId: "routes/__a",
+      },
+      "routes/__b": {
+        file: "routes/__b.tsx",
+        id: "routes/__b",
+        parentId: "root",
+      },
+      "routes/__b/b": {
+        caseSensitive: undefined,
+        file: "routes/__b/b.tsx",
+        id: "routes/__b/b",
+        index: undefined,
+        parentId: "routes/__b",
+        path: "b",
+      },
+    });
+  });
+
+  // See: https://github.com/remix-run/remix/discussions/3014
+  it("handles sibling pathless and index routes", () => {
+    let routes = createRoutesFromFolders(defineRoutes, {
+      appDirectory: path.join(__dirname, "fixtures", "blog-collision"),
+    });
+
+    expect(routes).toEqual({
+      "routes/blog/__nested": {
+        file: "routes/blog/__nested.tsx",
+        id: "routes/blog/__nested",
+        parentId: "root",
+        path: "blog",
+      },
+      "routes/blog/__nested/new": {
+        file: "routes/blog/__nested/new.tsx",
+        id: "routes/blog/__nested/new",
+        parentId: "routes/blog/__nested",
+        path: "new",
+      },
+      "routes/blog/index": {
+        file: "routes/blog/index.tsx",
+        id: "routes/blog/index",
+        index: true,
+        parentId: "root",
+        path: "blog",
+      },
+      "routes/index": {
+        file: "routes/index.tsx",
+        id: "routes/index",
+        index: true,
+        parentId: "root",
+      },
+    });
+  });
+
+  it("warns on route collisions", () => {
+    expect(() =>
+      createRoutesFromFolders(defineRoutes, {
+        appDirectory: path.join(__dirname, "fixtures", "route-collisions"),
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"Path \\"a\\" defined by route \\"routes/__b/a\\" conflicts with route \\"routes/__a/a\\""'
+    );
+  });
 });

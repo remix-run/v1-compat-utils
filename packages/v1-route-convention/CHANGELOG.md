@@ -1,5 +1,11 @@
 # `@remix-run/v1-route-convention`
 
+## 0.1.2-pre.0
+
+### Patch Changes
+
+- Allow sibling pathless layout routes (from https://github.com/remix-run/remix/pull/4421) ([#20](https://github.com/remix-run/v1-compat-utils/pull/20))
+
 ## 0.1.1
 
 ### Patch Changes

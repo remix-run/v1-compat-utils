@@ -1,5 +1,11 @@
 # `@remix-run/v1-route-convention`
 
+## 0.1.3-pre.0
+
+### Patch Changes
+
+- add remix v2 to peer dependencies ([#28](https://github.com/remix-run/v1-compat-utils/pull/28))
+
 ## 0.1.2
 
 ### Patch Changes

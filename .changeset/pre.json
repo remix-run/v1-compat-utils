@@ -5,5 +5,7 @@
     "@remix-run/v1-meta": "0.1.1",
     "@remix-run/v1-route-convention": "0.1.2"
   },
-  "changesets": []
+  "changesets": [
+    "eighty-llamas-bathe"
+  ]
 }

@@ -1,6 +1,6 @@
 # `@remix-run/v1-meta`
 
-## 0.1.2-pre.0
+## 0.1.2
 
 ### Patch Changes
 

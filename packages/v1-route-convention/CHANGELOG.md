@@ -1,6 +1,6 @@
 # `@remix-run/v1-route-convention`
 
-## 0.1.3-pre.0
+## 0.1.3
 
 ### Patch Changes
 

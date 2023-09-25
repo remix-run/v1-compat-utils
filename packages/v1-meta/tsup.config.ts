@@ -16,11 +16,6 @@ export default defineConfig(() => {
     {
       ...sharedOptions,
       format: "cjs",
-    },
-
-    {
-      ...sharedOptions,
-      format: "esm",
       dts: true,
     },
   ];

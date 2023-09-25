@@ -4,7 +4,7 @@
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ES2020",
+    "module": "Node16",
     "target": "ES2020",
     "allowJs": true,
     "checkJs": true,
@@ -17,7 +17,7 @@
     "inlineSources": false,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true

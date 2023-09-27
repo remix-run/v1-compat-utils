@@ -1,6 +1,6 @@
 {
   "name": "@remix-run/v1-route-convention",
-  "version": "0.1.3",
+  "version": "0.1.4-pre.0",
   "homepage": "https://remix.run",
   "bugs": {
     "url": "https://github.com/remix-run/v1-compat-utils/issues"

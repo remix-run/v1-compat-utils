@@ -1,5 +1,11 @@
 # `@remix-run/v1-route-convention`
 
+## 0.1.4
+
+### Patch Changes
+
+- Simplify build to only emit CJS files which allows this to be used in either an ESM or CJS Remix application without running into module format issues ([#25](https://github.com/remix-run/v1-compat-utils/pull/25))
+
 ## 0.1.3
 
 ### Patch Changes

@@ -10,7 +10,7 @@ const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
 module.exports = {
   // Tell Remix to ignore everything in the routes directory.
   // We'll let `createRoutesFromFolders` take care of that.
-  ignoredRouteFiles: ["**/*", "**/.*"],
+  ignoredRouteFiles: ["**/*"],
   routes: (defineRoutes) => {
     // `createRoutesFromFolders` will create routes for all files in the
     // routes directory using the same default conventions as Remix v1.
